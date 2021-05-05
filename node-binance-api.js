@@ -4440,7 +4440,20 @@ let api = function Binance( options = {} ) {
                 flags = { type: 'MARKET' };
             }
             if ( typeof flags.type === 'undefined' ) flags.type = 'MARKET';
-            marginOrder( 'BUY', symbol, quantity, 0, {...flags,isIsolated}, callback );
+            if ( !callback ) {
+                return new Promise( ( resolve, reject ) => {
+                    callback = ( error, response ) => {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            resolve( response );
+                        }
+                    }
+                    marginOrder( 'BUY', symbol, quantity, 0, {...flags,isIsolated}, callback );
+                } )
+            } else {
+                marginOrder( 'BUY', symbol, quantity, 0, {...flags,isIsolated}, callback );
+            }
         },
 
         /**
@@ -4458,7 +4471,20 @@ let api = function Binance( options = {} ) {
                 flags = { type: 'MARKET' };
             }
             if ( typeof flags.type === 'undefined' ) flags.type = 'MARKET';
-            marginOrder( 'SELL', symbol, quantity, 0, {...flags,isIsolated}, callback );
+            if ( !callback ) {
+                return new Promise( ( resolve, reject ) => {
+                    callback = ( error, response ) => {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            resolve( response );
+                        }
+                    }
+                    marginOrder( 'SELL', symbol, quantity, 0, {...flags,isIsolated}, callback );
+                } )
+            } else {
+                marginOrder( 'SELL', symbol, quantity, 0, {...flags,isIsolated}, callback );
+            }
         },
 
         /**
