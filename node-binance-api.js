@@ -4677,9 +4677,24 @@ let api = function Binance( options = {} ) {
                 isIsolated,
                 symbol
             }:{}
-            signedRequest( sapi + 'v1/margin/loan', {...parameters,...isolatedObj}, function ( error, data ) {
-                if ( callback ) return callback( error, data );
-            }, 'POST' );
+            if ( !callback ) {
+                return new Promise( ( resolve, reject ) => {
+                    callback = ( error, response ) => {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            resolve( response );
+                        }
+                    }
+                    signedRequest( sapi + 'v1/margin/loan', {...parameters,...isolatedObj}, function ( error, data ) {
+                        if ( callback ) return callback( error, data );
+                    }, 'POST' );
+                } )
+            } else {
+                signedRequest( sapi + 'v1/margin/loan', {...parameters,...isolatedObj}, function ( error, data ) {
+                    if ( callback ) return callback( error, data );
+                }, 'POST' );
+            }
         },
 
         /**
@@ -4698,9 +4713,24 @@ let api = function Binance( options = {} ) {
                 isIsolated,
                 symbol
             }:{}
-            signedRequest( sapi + 'v1/margin/repay', {...parameters,...isolatedObj}, function ( error, data ) {
-                if ( callback ) return callback( error, data );
-            }, 'POST' );
+            if ( !callback ) {
+                 return new Promise( ( resolve, reject ) => {
+                     callback = ( error, response ) => {
+                         if ( error ) {
+                             reject( error );
+                         } else {
+                             resolve( response );
+                         }
+                     }
+                     signedRequest( sapi + 'v1/margin/repay', {...parameters,...isolatedObj}, function ( error, data ) {
+                         if ( callback ) return callback( error, data );
+                     }, 'POST' );
+                 } )
+             } else {
+                 signedRequest( sapi + 'v1/margin/repay', {...parameters,...isolatedObj}, function ( error, data ) {
+                     if ( callback ) return callback( error, data );
+                 }, 'POST' );
+             }
         },
         /**
          * Margin account details
@@ -4710,9 +4740,24 @@ let api = function Binance( options = {} ) {
          */
         mgAccount: function( callback ,isIsolated = false) {
             const endpoint = 'v1/margin' + (isIsolated?'/isolated':'')  + '/account'
-            signedRequest( sapi + endpoint, {}, function( error, data ) {
-                if( callback ) return callback( error, data );
-            } );
+            if ( !callback ) {
+                return new Promise( ( resolve, reject ) => {
+                    callback = ( error, response ) => {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            resolve( response );
+                        }
+                    }
+                    signedRequest( sapi + endpoint, {}, function( error, data ) {
+                        if( callback ) return callback( error, data );
+                    } );
+                } )
+            } else {
+              signedRequest( sapi + endpoint, {}, function( error, data ) {
+                  if( callback ) return callback( error, data );
+              } );
+            }
         },
         /**
          * Get maximum borrow amount of an asset
@@ -4720,10 +4765,27 @@ let api = function Binance( options = {} ) {
          * @param {function} callback - the callback function
          * @return {undefined}
          */
-        maxBorrowable: function ( asset, callback ) {
-            signedRequest( sapi + 'v1/margin/maxBorrowable', { asset: asset }, function( error, data ) {
-                if( callback ) return callback( error, data );
-            } );
+        maxBorrowable: function ( asset, callback, isIsolated = false) {
+            const endpoint = 'v1/margin' + (isIsolated?'/isolated':'')  + '/maxBorrowable'
+            if ( !callback ) {
+                 return new Promise( ( resolve, reject ) => {
+                     callback = ( error, response ) => {
+                         if ( error ) {
+                             reject( error );
+                         } else {
+                             resolve( response );
+                         }
+                     }
+                     signedRequest( sapi + endpoint, {}, function( error, data ) {
+                         if( callback ) return callback( error, data );
+                     } );
+                 } )
+             } else {
+                 signedRequest( sapi + endpoint, {}, function( error, data ) {
+                     if( callback ) return callback( error, data );
+                 } );
+             }
+
         },
 
         // Futures WebSocket Functions:
