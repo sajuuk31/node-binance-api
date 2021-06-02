@@ -4776,12 +4776,12 @@ let api = function Binance( options = {} ) {
                              resolve( response );
                          }
                      }
-                     signedRequest( sapi + endpoint, {}, function( error, data ) {
+                     signedRequest( sapi + endpoint, {asset:asset}, function( error, data ) {
                          if( callback ) return callback( error, data );
                      } );
                  } )
              } else {
-                 signedRequest( sapi + endpoint, {}, function( error, data ) {
+                 signedRequest( sapi + endpoint, {asset:asset}, function( error, data ) {
                      if( callback ) return callback( error, data );
                  } );
              }
